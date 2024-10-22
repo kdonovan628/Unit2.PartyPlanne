@@ -5,7 +5,7 @@ const fetchData = async () => {
     const partyData = await response.json();
     console.log(partyData);
 
-    // access the events directly from partyData.data
+    // access the events
     const events = partyData.data;
 
     // grab list elements from HTML
