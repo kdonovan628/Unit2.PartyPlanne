@@ -5,7 +5,7 @@ const fetchData = async () => {
     const partyData = await response.json();
     console.log(partyData);
 
-    // access the events
+    // access the events directly from partyData.data
     const events = partyData.data;
 
     // grab list elements from HTML
@@ -14,15 +14,15 @@ const fetchData = async () => {
     const eventLocationList = document.querySelector('#eventLocationList');
     const eventDescriptionList = document.querySelector('#eventDescriptionList');
 
-    // loop through the party data
-    events.forEach(event => {
+    // map through the party data
+    const eventItems = events.map(event => {
       // create new list items for each event
       const nameItem = document.createElement('li');
       const dateTimeItem = document.createElement('li');
       const locationItem = document.createElement('li');
       const descriptionItem = document.createElement('li');
 
-      // Set the text content of each list item
+      // set the text content of each list item
       nameItem.textContent = event.name;
       locationItem.textContent = event.location;
       descriptionItem.textContent = event.description;
@@ -32,7 +32,11 @@ const fetchData = async () => {
       const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
       dateTimeItem.textContent = eventDate.toLocaleString('en-US', options); // Format date and time
 
-      // Append each item to the appropriate list
+      // return the list items as an object
+      return { nameItem, dateTimeItem, locationItem, descriptionItem };
+    });
+
+    eventItems.forEach(({ nameItem, dateTimeItem, locationItem, descriptionItem }) => {
       eventNameList.appendChild(nameItem);
       eventDateTimeList.appendChild(dateTimeItem);
       eventLocationList.appendChild(locationItem);
